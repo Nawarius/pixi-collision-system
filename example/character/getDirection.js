@@ -1,5 +1,6 @@
 
 function getDirection (keyboardKeys) {
+    
     if ((keyboardKeys["87"] && keyboardKeys["68"]) || (keyboardKeys["38"] && keyboardKeys["39"])) {
         return 'walkNE'
     } else if ((keyboardKeys["87"] && keyboardKeys["65"]) || (keyboardKeys["38"] && keyboardKeys["37"])) {
@@ -17,7 +18,6 @@ function getDirection (keyboardKeys) {
     }
 
     else if (keyboardKeys["65"] || keyboardKeys["37"]) {
-        console.log('here')
         return 'walkW'
     }
     else if (keyboardKeys["68"] || keyboardKeys["39"]) {

@@ -42,12 +42,6 @@ function setup () {
 
     let already_move = false
 
-    const move_loop = () => {
-        const direction = getDirection(keyboardKeys)
-        System.move_with_collision(direction)
-        camera_follow_character()
-    }
-
     window.addEventListener('keydown', e => {
         press_key(e.keyCode, true)
 
@@ -59,6 +53,7 @@ function setup () {
 
     window.addEventListener('keyup', e => {
         press_key(e.keyCode, false)
+        stop_animation()
 
         const no_keys = no_keys_pressed()
         
@@ -66,8 +61,16 @@ function setup () {
             already_move = false
             app.ticker.remove(move_loop, 'move_loop')
         }
-        
     })
+
+    function move_loop () {
+        const direction = getDirection(keyboardKeys)
+
+        System.move_with_collision(direction)
+
+        play_animation(direction)
+        camera_follow_character()
+    }
 
     function press_key (keyCode, bool) {
         const keyExist = keyboardKeys.hasOwnProperty(keyCode)
@@ -78,7 +81,19 @@ function setup () {
         for (let key in keyboardKeys) if (keyboardKeys[key] === true) return false
         return true
     }
-    
+
+    function play_animation (direction) {
+        if (!character.playing) {
+            character.textures = characterSheet[direction]
+            character.play()
+        }
+    }
+
+    function stop_animation () {
+        character.stop()
+        character.textures = characterSheet.idleS
+    }
+
     function camera_follow_character () {
         app.stage.pivot.x = character.position.x
         app.stage.pivot.y = character.position.y

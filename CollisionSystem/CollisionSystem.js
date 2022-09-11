@@ -43,8 +43,7 @@ class CollisionSystem {
         
         const colStepN = options.colisionStepN || 50
         const colStepS = options.colisionStepS || 50
-        const colStepX = 50
-        const speed = options.speed || 10
+        const speed = options.speed || 5
 
         const step = speed * app.ticker.deltaTime, stepY = step * 0.707
         
@@ -90,13 +89,13 @@ class CollisionSystem {
                 break
             }
             case 'walkE': {
-                if (this.collisionDetector(this.character.position.x + colStepX, this.character.position.y)) {
+                if (this.collisionDetector(this.character.position.x + colStepN, this.character.position.y)) {
                     this.character.position.x += step
                 }
                 break
             }
             case 'walkW': {
-                if (this.collisionDetector(this.character.position.x - colStepX, this.character.position.y)) {
+                if (this.collisionDetector(this.character.position.x - colStepN, this.character.position.y)) {
                     this.character.position.x -= step
                 }
                 break
