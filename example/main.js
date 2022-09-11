@@ -30,10 +30,14 @@ function setup () {
     app.stage.addChild(collision_map, front_map, earth, character)
 
     camera_follow_character()
-
+    
     const System = new CollisionSystem({ collision_map, front_map, character }, app)
     System.initCollisionMap()
 
+    System.drawCollision(earth)
+    System.drawCollision(earth)
+
+    //setTimeout(() => System.removeCollision(earth), 10000)
     const keyboardKeys = {
         65: false, 87: false, 68: false, 83: false, // WASD
         37: false, 38: false, 39: false, 40: false // Arrows
@@ -65,7 +69,7 @@ function setup () {
     function move_loop () {
         const direction = getDirection(keyboardKeys)
 
-        System.move_with_collision(direction)
+        System.moveWithCollision(direction)
 
         play_animation(direction)
         camera_follow_character()

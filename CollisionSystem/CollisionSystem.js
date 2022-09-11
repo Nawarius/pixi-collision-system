@@ -37,9 +37,9 @@ class CollisionSystem {
         return (pixelColor && !collisionExist) ? true : false
     }
 
-    move_with_collision (direction = '', options = {}) {
+    moveWithCollision (direction = '', options = {}) {
         const direction_exist = this.directions.find(d => d === direction)
-        if (!direction_exist) throw new Error(`Current direction: ${direction} not exist`)
+        if (!direction_exist) return
         
         const colStepN = options.colisionStepN || 50
         const colStepS = options.colisionStepS || 50
@@ -103,6 +103,38 @@ class CollisionSystem {
             default:
                 break
         } 
+    }
+
+    drawCollision (sprite, options = {scaleX: 0, scaleY: 0, rotation: 0}) {
+        const radX = sprite.width / 2
+        const radY = radX / 2
+        
+        let collision = this.collision_map.children.find(c => c.collision_system_params.sprite === sprite)
+        
+        if (!collision) {
+            collision = new PIXI.Graphics()
+            collision.collision_system_params = { sprite }
+            this.collision_map.addChild(collision)
+        } 
+
+        collision.clear()
+
+        collision.beginFill('black')
+        collision.drawEllipse(sprite.position.x, sprite.position.y, radX + options.scaleX, radY + options.scaleY)
+        collision.endFill()
+
+        collision.pivot.set(sprite.position.x, sprite.position.y)
+        collision.position.set(sprite.position.x, sprite.position.y)
+        collision.rotation = options.rotation
+    }
+
+    removeCollision (sprite) {
+        let collision = this.collision_map.children.find(c => c.collision_system_params.sprite === sprite)
+
+        if (collision) {
+            this.collision_map.removeChild(collision)
+            collision.destroy(true)
+        }
     }
 
 }
