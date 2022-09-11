@@ -19,6 +19,7 @@ app.loader
 function setup () {
 
     const front_map = createMap(app.loader.resources.front_map.texture)
+    front_map.visible = false
     const collision_map = createMap(app.loader.resources.collision_map.texture)
 
     const characterSheet = createAnimations(app.loader.resources.character.url)
@@ -28,15 +29,60 @@ function setup () {
     app.stage.addChild(front_map)
     app.stage.addChild(character)
 
-    character.x = app.screen.width / 2
+    character.x = app.screen.width / 2 + 300
     character.y = app.screen.height / 2
 
-    const System = new CollisionSystem({ collision_map, front_map, character}, app)
+    const System = new CollisionSystem({ collision_map, front_map, character }, app)
     System.initCollisionMap()
-    // app.ticker.add(() => {
-    //     app.stage.pivot.x = character.position.x
-    //     app.stage.pivot.y = character.position.y
-    //     app.stage.position.x = app.renderer.width/2
-    //     app.stage.position.y = app.renderer.height/2
-    // }) 
+
+    const keyboardKeys = {
+        65: false, 87: false, 68: false, 83: false, // WASD
+        37: false, 38: false, 39: false, 40: false // Arrows
+    }
+
+    let already_move = false
+
+    const move_loop = () => {
+        const direction = getDirection(keyboardKeys)
+        System.move_with_collision(direction)
+        camera_follow_character()
+    }
+
+    window.addEventListener('keydown', e => {
+        press_key(e.keyCode, true)
+
+        if (!already_move) {
+            already_move = true
+            app.ticker.add(move_loop, 'move_loop')
+        }
+    })
+
+    window.addEventListener('keyup', e => {
+        press_key(e.keyCode, false)
+
+        const no_keys = no_keys_pressed()
+        
+        if (no_keys) {
+            already_move = false
+            app.ticker.remove(move_loop, 'move_loop')
+        }
+        
+    })
+
+    function press_key (keyCode, bool) {
+        const keyExist = keyboardKeys.hasOwnProperty(keyCode)
+        if (keyExist) keyboardKeys[keyCode] = bool
+    } 
+
+    function no_keys_pressed () {
+        for (let key in keyboardKeys) if (keyboardKeys[key] === true) return false
+        return true
+    }
+    
+    function camera_follow_character () {
+        app.stage.pivot.x = character.position.x
+        app.stage.pivot.y = character.position.y
+        app.stage.position.x = app.renderer.width / 2
+        app.stage.position.y = app.renderer.height / 2
+    }
 }

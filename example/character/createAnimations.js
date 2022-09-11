@@ -7,23 +7,23 @@ function createAnimations (url) {
     let w = 95.16
     let h = 158
 
-    playerSheet["standSouth"] = [
+    playerSheet["idleS"] = [
       new PIXI.Texture(sheet, new PIXI.Rectangle(0 * w, 0, w, h))
     ]
 
-    playerSheet["standWest"] = [
+    playerSheet["idleW"] = [
         new PIXI.Texture(sheet, new PIXI.Rectangle(0 * w, 1 * h, w, h))
     ]
 
-    playerSheet["standNorth"] = [
+    playerSheet["idleN"] = [
       new PIXI.Texture(sheet, new PIXI.Rectangle(0 * w, 3 * h, w, h))
     ]
 
-    playerSheet["standEast"] = [
+    playerSheet["idleE"] = [
       new PIXI.Texture(sheet, new PIXI.Rectangle(0 * w, 2 * h, w, h))
     ]
 
-    playerSheet["walkSouth"] = [
+    playerSheet["walkS"] = [
       new PIXI.Texture(sheet, new PIXI.Rectangle(0 * w, 0, w, h)),
       new PIXI.Texture(sheet, new PIXI.Rectangle(1 * w, 0, w, h)),
       new PIXI.Texture(sheet, new PIXI.Rectangle(2 * w, 0, w, h)),
@@ -37,7 +37,7 @@ function createAnimations (url) {
       new PIXI.Texture(sheet, new PIXI.Rectangle(10 * w, 0, w, h))
     ]
 
-    playerSheet["walkNorth"] = [
+    playerSheet["walkN"] = [
       new PIXI.Texture(sheet, new PIXI.Rectangle(1 * w, 3 * h, w, h)),
       new PIXI.Texture(sheet, new PIXI.Rectangle(2 * w, 3 * h, w, h)),
       new PIXI.Texture(sheet, new PIXI.Rectangle(3 * w, 3 * h, w, h)),
@@ -51,7 +51,7 @@ function createAnimations (url) {
       new PIXI.Texture(sheet, new PIXI.Rectangle(11 * w, 3 * h, w, h))
     ]
 
-    playerSheet["walkWest"] = [
+    playerSheet["walkW"] = [
       new PIXI.Texture(sheet, new PIXI.Rectangle(1 * w, 1 * h, w, h)),
       new PIXI.Texture(sheet, new PIXI.Rectangle(2 * w, 1 * h, w, h)),
       new PIXI.Texture(sheet, new PIXI.Rectangle(3 * w, 1 * h, w, h)),
@@ -65,7 +65,7 @@ function createAnimations (url) {
       new PIXI.Texture(sheet, new PIXI.Rectangle(11 * w, 1 * h, w, h))
     ]
 
-    playerSheet["walkEast"] = [
+    playerSheet["walkE"] = [
       new PIXI.Texture(sheet, new PIXI.Rectangle(1 * w, 2 * h, w, h)),
       new PIXI.Texture(sheet, new PIXI.Rectangle(2 * w, 2 * h, w, h)),
       new PIXI.Texture(sheet, new PIXI.Rectangle(3 * w, 2 * h, w, h)),
