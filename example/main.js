@@ -9,11 +9,11 @@ const app = new PIXI.Application({
     sortableChildren: true
 })
 
-app.loader.onError.add((e) => console.log(e))
 app.loader
     .add("character", 'https://dl.dropbox.com/s/xmendnr2a8e7lzs/character.png')
     .add("front_map", 'https://dl.dropbox.com/s/qmagmozys7gia7h/front_map.png')
     .add("collision_map", 'https://dl.dropbox.com/s/wao3715aia3r4cg/collision_map.png')
+    .add("earth", 'https://dl.dropbox.com/s/gb44qrncu8032vv/earth.png')
     .load(() => setup(app))
 
 function setup () {
@@ -22,15 +22,14 @@ function setup () {
     front_map.visible = false
     const collision_map = createMap(app.loader.resources.collision_map.texture)
 
-    const characterSheet = createAnimations(app.loader.resources.character.url)
+    const characterSheet = createAnimations(app.loader.resources.character.data)
     const character = createCharacter(characterSheet)
 
-    app.stage.addChild(collision_map)
-    app.stage.addChild(front_map)
-    app.stage.addChild(character)
+    const earth = createAsset(app.loader.resources.earth.texture)
 
-    character.x = app.screen.width / 2 + 300
-    character.y = app.screen.height / 2
+    app.stage.addChild(collision_map, front_map, earth, character)
+
+    camera_follow_character()
 
     const System = new CollisionSystem({ collision_map, front_map, character }, app)
     System.initCollisionMap()
