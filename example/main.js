@@ -35,8 +35,9 @@ function setup () {
     System.initCollisionMap()
 
     System.drawCollision(earth)
-    System.drawCollision(earth)
+    //System.drawCollision(earth)
 
+    //setTimeout(() => app.stage.removeChild(earth), 10000)
     //setTimeout(() => System.removeCollision(earth), 10000)
     const keyboardKeys = {
         65: false, 87: false, 68: false, 83: false, // WASD

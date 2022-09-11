@@ -115,6 +115,8 @@ class CollisionSystem {
             collision = new PIXI.Graphics()
             collision.collision_system_params = { sprite }
             this.collision_map.addChild(collision)
+
+            sprite.on('removed', () => this.removeCollision(sprite))
         } 
 
         collision.clear()
