@@ -1,0 +1,9 @@
+{
+  "name": "pixi-collision-system",
+  "version": "1.0.0",
+  "description": "Library for simple interactions with collisions",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Artem Ermakov (Nawarius)",
+  "license": "ISC"
+}
