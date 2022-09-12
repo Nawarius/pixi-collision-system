@@ -1,4 +1,5 @@
 
+// Init PIXI App
 const app = new PIXI.Application({
     view: document.getElementById("container"),
     resolution: window.devicePixelRatio || 1,
@@ -9,36 +10,41 @@ const app = new PIXI.Application({
     sortableChildren: true
 })
 
+// Loading the required img resources
 app.loader
     .add("character", 'https://dl.dropbox.com/s/xmendnr2a8e7lzs/character.png')
     .add("front_map", 'https://dl.dropbox.com/s/qmagmozys7gia7h/front_map.png')
     .add("collision_map", 'https://dl.dropbox.com/s/wao3715aia3r4cg/collision_map.png')
     .add("earth", 'https://dl.dropbox.com/s/gb44qrncu8032vv/earth.png')
-    .load(() => setup(app))
+    .load(() => setup())
 
 function setup () {
-
+    // Add Front map (Color beautiful map)
     const front_map = createMap(app.loader.resources.front_map.texture)
-    front_map.visible = false
+    // Add Collision map (Black and White map)
     const collision_map = createMap(app.loader.resources.collision_map.texture)
 
+    // Get animation sheet (idle, walk) from current character img
     const characterSheet = createAnimations(app.loader.resources.character.data)
+    // Create character Sprite using animation sheet
     const character = createCharacter(characterSheet)
 
+    // Add asset (Earth img)
     const earth = createAsset(app.loader.resources.earth.texture)
 
+    // Add all sprites to scene (maps, character, earth)
     app.stage.addChild(collision_map, front_map, earth, character)
 
+    // Center stage on character 
     camera_follow_character()
     
-    const System = new CollisionSystem({ collision_map, front_map, character }, app)
-    System.initCollisionMap()
+    // Create instance of Collision System (Initialization of collision map canvas)
+    const System = new CollisionSystem({ collision_map, front_map, character }, app, PIXI)
 
+    // Draw collision for earth sprite in collision_map
     System.drawCollision(earth)
-    //System.drawCollision(earth)
 
-    //setTimeout(() => app.stage.removeChild(earth), 10000)
-    //setTimeout(() => System.removeCollision(earth), 10000)
+    // This will control which keys are pressed
     const keyboardKeys = {
         65: false, 87: false, 68: false, 83: false, // WASD
         37: false, 38: false, 39: false, 40: false // Arrows
@@ -46,6 +52,7 @@ function setup () {
 
     let already_move = false
 
+    // When the character starts to move, run the ticker
     window.addEventListener('keydown', e => {
         press_key(e.keyCode, true)
 
@@ -55,6 +62,7 @@ function setup () {
         }
     })
 
+    // When the character has stopped, remove the ticker
     window.addEventListener('keyup', e => {
         press_key(e.keyCode, false)
         stop_animation()
@@ -67,37 +75,42 @@ function setup () {
         }
     })
 
+    // On each tick, check the current direction. After that, the character moves in the indicated direction, checking all collisions
     function move_loop () {
         const direction = getDirection(keyboardKeys)
-
-        System.moveWithCollision(direction)
+        System.moveWithCollisions(direction)
 
         play_animation(direction)
         camera_follow_character()
     }
 
+    // Down/up keyboard key  
     function press_key (keyCode, bool) {
         const keyExist = keyboardKeys.hasOwnProperty(keyCode)
         if (keyExist) keyboardKeys[keyCode] = bool
     } 
 
+    // No key on the keyboard is pressed (Only WASD and arrows are checked)
     function no_keys_pressed () {
         for (let key in keyboardKeys) if (keyboardKeys[key] === true) return false
         return true
     }
 
+    // Playing of current character animation
     function play_animation (direction) {
-        if (!character.playing) {
+        if (!character.playing && characterSheet[direction]) {
             character.textures = characterSheet[direction]
             character.play()
         }
     }
 
+    // Stop character animation (Here stop it's always return to the idle south)
     function stop_animation () {
         character.stop()
         character.textures = characterSheet.idleS
     }
 
+    // When the character moves, it is necessary that he is always in the center of the stage
     function camera_follow_character () {
         app.stage.pivot.x = character.position.x
         app.stage.pivot.y = character.position.y

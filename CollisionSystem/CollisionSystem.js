@@ -1,17 +1,20 @@
 
 class CollisionSystem {
 
-    constructor ({collision_map, front_map, character}, app) {
+    constructor ({collision_map, front_map, character}, app, PIXI) {
 
         this.collision_map = collision_map
         this.front_map = front_map
         this.character = character
         this.app = app
+        this.PIXI = PIXI
 
         this.collision_canvas = null
         this.collision_canvas_ctx = null
 
         this.directions = ['walkN', 'walkNE', 'walkNW', 'walkS', 'walkSE', 'walkSW', 'walkE', 'walkW']
+
+        this.initCollisionMap()
     }
 
     initCollisionMap () {
@@ -37,7 +40,7 @@ class CollisionSystem {
         return (pixelColor && !collisionExist) ? true : false
     }
 
-    moveWithCollision (direction = '', options = {}) {
+    moveWithCollisions (direction = '', options = {}) {
         const direction_exist = this.directions.find(d => d === direction)
         if (!direction_exist) return
         
@@ -112,7 +115,7 @@ class CollisionSystem {
         let collision = this.collision_map.children.find(c => c.collision_system_params.sprite === sprite)
         
         if (!collision) {
-            collision = new PIXI.Graphics()
+            collision = new this.PIXI.Graphics()
             collision.collision_system_params = { sprite }
             this.collision_map.addChild(collision)
 
