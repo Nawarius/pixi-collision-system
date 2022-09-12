@@ -4,11 +4,67 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href = './styles.css' rel="stylesheet" />
+
+    <title>Pixi-Collision-System-Example</title>
 </head>
 <body style = "overflow: hidden; margin: 0; padding: 0">
+    <div class = 'menu'>
+
+        <div style = 'margin: 10px;'>
+            Show/Hide front map:
+            <button onclick = "System.displayFrontMap(true)">Show</button>
+            <button onclick = "System.displayFrontMap(false)">Hide</button>
+        </div>
+
+        <div style = 'margin: 10px;'>
+            Change collision form
+            <div>Current form: <span id = 'form_span' style = 'color: red;'></span></div>
+            <button onclick = "updateCollision({form: 'ellipse'})">Ellipse</button>
+            <button onclick = "updateCollision({form: 'rect'})">Rect</button>
+        </div>
+
+        <div style = 'margin: 10px;'>
+            <div>ScaleX: <span id = 'scale_x_span' style = 'color: red;'></span></div>
+            <span class = 'btn_control' onclick = "updateCollision({scaleX: 5})">+</span>
+            <span class = 'btn_control' onclick = "updateCollision({scaleX: -5})">-</span>
+        </div>
+
+        <div style = 'margin: 10px;'>
+            <div>ScaleY: <span id = 'scale_y_span' style = 'color: red;'></span></div>
+            <span class = 'btn_control' onclick = "updateCollision({scaleY: 5})">+</span>
+            <span class = 'btn_control' onclick = "updateCollision({scaleY: -5})">-</span>
+        </div>
+
+        <div style = 'margin: 10px;'>
+            <div>Rotation: <span id = 'rotation_span' style = 'color: red;'></span></div>
+            <span class = 'btn_control' onclick = "updateCollision({rotation: 0.1})">+</span>
+            <span class = 'btn_control' onclick = "updateCollision({rotation: -0.1})">-</span>
+        </div>
+
+    </div>
     <canvas id = 'container'></canvas>
 </body>
+    <script>
+        // No text selection when many buttons clicks
+        document.body.onselectstart = () => false
+
+        let span_rot = document.getElementById('rotation_span'), form_span = document.getElementById('form_span') 
+        let scale_x_span = document.getElementById('scale_x_span'), scale_y_span = document.getElementById('scale_y_span') 
+
+        function updateCollision (params) {
+            
+            System.updateCollision(earth, params)
+            const options = System.getCollisionOptions(earth)
+
+            // Write actual collision options
+            span_rot.innerText = options.rotation.toFixed(1)
+            scale_x_span.innerText = options.scaleX.toFixed(1)
+            scale_y_span.innerText = options.scaleY.toFixed(1)
+            form_span.innerHTML = options.form
+        }
+
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
     <script src = './character/createAnimations.js'></script>
     <script src = './character/createCharacter.js'></script>

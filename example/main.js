@@ -18,6 +18,9 @@ app.loader
     .add("earth", 'https://dl.dropbox.com/s/gb44qrncu8032vv/earth.png')
     .load(() => setup())
 
+// Need to be global for html buttons controls
+let earth = null, System = null
+
 function setup () {
     // Add Front map (Color beautiful map)
     const front_map = createMap(app.loader.resources.front_map.texture)
@@ -30,7 +33,7 @@ function setup () {
     const character = createCharacter(characterSheet)
 
     // Add asset (Earth img)
-    const earth = createAsset(app.loader.resources.earth.texture)
+    earth = createAsset(app.loader.resources.earth.texture)
 
     // Add all sprites to scene (maps, character, earth)
     app.stage.addChild(collision_map, front_map, earth, character)
@@ -39,10 +42,12 @@ function setup () {
     camera_follow_character()
     
     // Create instance of Collision System (Initialization of collision map canvas)
-    const System = new CollisionSystem({ collision_map, front_map, character }, app, PIXI)
+    System = new CollisionSystem({ collision_map, front_map, character }, app, PIXI)
 
     // Draw collision for earth sprite in collision_map
-    System.drawCollision(earth)
+    System.createCollision(earth)
+    // Hide front map
+    System.displayFrontMap(false)
 
     // This will control which keys are pressed
     const keyboardKeys = {

@@ -1,0 +1,24 @@
+.menu {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 1000;
+    width: 200px;
+    height: 350px;
+    background-color: white;
+    padding: 10px;
+    border: 2px solid black;
+}
+
+.btn_control {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background: #f2f2f2;
+    border-radius: 4px;
+    padding: 8px 5px 8px 5px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+}
