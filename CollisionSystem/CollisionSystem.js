@@ -11,6 +11,7 @@ class CollisionSystem {
 
         this.collision_canvas = null
         this.collision_canvas_ctx = null
+        this.collisions_forms = ['ellipse', 'rect']
 
         this.directions = ['walkN', 'walkNE', 'walkNW', 'walkS', 'walkSE', 'walkSW', 'walkE', 'walkW']
 
@@ -109,12 +110,14 @@ class CollisionSystem {
     }
 
     createCollision (sprite, options = {scaleX: 0, scaleY: 0, rotation: 0, form: 'ellipse'}) {
-        
+
+        const form_exist = this.collisions_forms.find(f => options.form === f)
+
         const params = {
             scaleX: options.scaleX || 0,
             scaleY: options.scaleY || 0,
             rotation: options.rotation || 0,
-            form: options.form || 'ellipse',
+            form: (options.form && form_exist) ? options.form : 'ellipse'
         }
         
         let collision = this.getCollisionBySprite(sprite)
@@ -122,22 +125,22 @@ class CollisionSystem {
         if (!collision) {
             collision = new this.PIXI.Graphics()
 
-            collision.collision_system_params = { sprite, ...params }
-
             this.collision_map.addChild(collision)
             sprite.on('removed', () => this.removeCollision(sprite))
 
+            collision.collision_system_params = { sprite, ...params }
             this.updateCollision(sprite, params)
         }
         
     }
 
     updateCollision (sprite, options) {
-
         let collision = this.getCollisionBySprite(sprite)
         if (!collision) return
 
-        collision.collision_system_params.form = options.form || collision.collision_system_params.form
+        const form_exist = this.collisions_forms.find(f => options.form === f)
+
+        collision.collision_system_params.form = (options.form && form_exist) ? options.form : collision.collision_system_params.form
         collision.collision_system_params.scaleX += options.scaleX || 0
         collision.collision_system_params.scaleY += options.scaleY || 0
         collision.collision_system_params.rotation += options.rotation || 0
