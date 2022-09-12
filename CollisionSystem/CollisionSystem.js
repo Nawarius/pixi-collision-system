@@ -44,63 +44,65 @@ class CollisionSystem {
     moveWithCollisions (direction = '', options = {}) {
         const direction_exist = this.directions.find(d => d === direction)
         if (!direction_exist) return
-        
-        const colStepN = options.colisionStepN || 50
-        const colStepS = options.colisionStepS || 50
-        const speed = options.speed || 5
 
-        const step = speed * app.ticker.deltaTime, stepY = step * 0.707
+        const colStepNY = typeof options.colStepNY === 'number' ? options.colStepNY : 30
+        const colStepSY = typeof options.colStepSY === 'number' ? options.colStepSY : 10
+        const colStepX = typeof options.colStepX === 'number' ? options.colStepX : 30
+
+        const speed = typeof options.speed === 'number' ? options.speed : 5
+        const stepXY = typeof options.stepXY === 'number' ? options.stepXY : speed * app.ticker.deltaTime
+        const stepD = typeof options.stepD === 'number' ? options.stepD :  stepXY * 0.707
         
         switch (direction) {
             case 'walkNE': {
-                if (this.collisionDetector(this.character.position.x + colStepN, this.character.position.y - colStepN)) {
-                    this.character.position.y -= stepY
-                    this.character.position.x += step
+                if (this.collisionDetector(this.character.position.x + colStepNY, this.character.position.y - colStepNY)) {
+                    this.character.position.y -= stepD
+                    this.character.position.x += stepXY
                 }
                 break
             }
             case 'walkNW': {
-                if (this.collisionDetector(this.character.position.x - colStepN, this.character.position.y - colStepN)) {
-                    this.character.position.x -= step
-                    this.character.position.y -= stepY
+                if (this.collisionDetector(this.character.position.x - colStepNY, this.character.position.y - colStepNY)) {
+                    this.character.position.x -= stepXY
+                    this.character.position.y -= stepD
                 }
                 break
             }
             case 'walkN': {
-                if (this.collisionDetector(this.character.position.x, this.character.position.y - colStepN)){
-                    this.character.position.y -= step
+                if (this.collisionDetector(this.character.position.x, this.character.position.y - colStepNY)){
+                    this.character.position.y -= stepXY
                 }
                 break
             }
             case 'walkSE': {
-                if (this.collisionDetector(this.character.position.x + colStepS, this.character.position.y + colStepS)) {
-                    this.character.position.x += step
-                    this.character.position.y += stepY
+                if (this.collisionDetector(this.character.position.x + colStepSY, this.character.position.y + colStepSY)) {
+                    this.character.position.x += stepXY
+                    this.character.position.y += stepD
                 }
                 break
             }
             case 'walkSW': {
-                if (this.collisionDetector(this.character.position.x - colStepS, this.character.position.y + colStepS)) {
-                    this.character.position.y += stepY
-                    this.character.position.x -= step
+                if (this.collisionDetector(this.character.position.x - colStepSY, this.character.position.y + colStepSY)) {
+                    this.character.position.y += stepD
+                    this.character.position.x -= stepXY
                 }
                 break
             }
             case 'walkS': {
-                if (this.collisionDetector(this.character.position.x, this.character.position.y + colStepS)) {
-                    this.character.position.y += step
+                if (this.collisionDetector(this.character.position.x, this.character.position.y + colStepSY)) {
+                    this.character.position.y += stepXY
                 }
                 break
             }
             case 'walkE': {
-                if (this.collisionDetector(this.character.position.x + colStepN, this.character.position.y)) {
-                    this.character.position.x += step
+                if (this.collisionDetector(this.character.position.x + colStepX, this.character.position.y)) {
+                    this.character.position.x += stepXY
                 }
                 break
             }
             case 'walkW': {
-                if (this.collisionDetector(this.character.position.x - colStepN, this.character.position.y)) {
-                    this.character.position.x -= step
+                if (this.collisionDetector(this.character.position.x - colStepX, this.character.position.y)) {
+                    this.character.position.x -= stepXY
                 }
                 break
             }

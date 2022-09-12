@@ -1,7 +1,7 @@
 
 function createCharacter (characterSheet) {
     const character = new PIXI.AnimatedSprite(characterSheet.idleS)
-    character.anchor.set(0.5)
+    character.anchor.set(0.5, 1)
     character.animationSpeed = 0.3
 
     character.position.x = app.screen.width / 2 
