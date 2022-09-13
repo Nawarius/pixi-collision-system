@@ -15,7 +15,7 @@ Try this example
 
 # Description of the concept
 
-The idea is very simple. We have two cards in our scene:
+The idea is very simple. We have two maps in our scene:
 1) **Front map** - a beautiful map that the user sees.
 2) **Collision map** - black and white map. It is invisible to the user.
 
@@ -44,7 +44,7 @@ Options shown with default values
 
 ```
 options = {
-    shape: 'ellipse' // The geometric shape of the collision
+    shape: 'ellipse', // The geometric shape of the collision
     scaleX: 0, // Scale by x coord
     scaleY: 0, // Scale by y coord
     rotation: 0, // Rotation
@@ -52,6 +52,9 @@ options = {
 ```
 
 `shape` can be 'ellipse' or 'rect'
+
+---
+
 ## Constructor
 
 `const System = new CollisionSystem({front_map, collision_map}, app, PIXI)`
@@ -64,16 +67,19 @@ Initializes everything necessary for the operation of the CollisionSystem
 
 3) `PIXI` is PIXI himself
 
+---
+
 ## Create Collision
 
 `System.createCollision(sprite, options)`
 
 Creates a collision for the sprite. 
-*(Makes it a child of collision_map)*
 
 See **Collision_options** at the top for a better understanding of what options the method accepts.
 
 `options` is not required
+
+---
 
 ## Update Collision
 
@@ -81,15 +87,11 @@ See **Collision_options** at the top for a better understanding of what options 
 
 Use this function to change the collision *(its size, rotation, shape)*
 
-```
-options = {
-    shape: 'ellipse' // The geometric shape of the collision
-    scaleX: 0, // Scale by x coord
-    scaleY: 0, // Scale by y coord
-    rotation: 0, // Rotation
-}
-```
+See **Collision_options** at the top for a better understanding of what options the method accepts.
+
 `options` is not required
+
+---
 
 ## Remove Collision
 
@@ -97,29 +99,77 @@ options = {
 
 You can manually remove the collision if you need to. The collision will also be removed automatically if you delete the sprite to which it is attached.
 
+---
+
+## Is Collision
+
+`System.isCollision(x, y)`
+
+Checks x, y coordinates. If these coordinates contain a black pixel of a static `collision_map` or a dynamic sprite collision created by `createCollision` return `true`.
+
+*(Converts coordinates to local collision_map coordinates. Don't worry if your front_map and collision_map are the same size)*
+
+---
+
+## Move with collisions
+
+`System.moveWithCollisions(sprite, direction, options)`
+
+Allows you to move the sprite in one of the available directions using collisions. 
+
+Available directions
+
+```
+'walkNE', 'walkNW', 'walkN', 'walkSE', 'walkSW', 'walkS', 'walkE', 'walkW'
+```
+
+Available options (Default values)
+
+```
+options = {
+    marginTop: 30,
+    marginBottom: 10,
+    marginRight: 30,
+    marginLeft: 30,
+    speed: 5,
+    stepXY: speed * app.ticker.deltaTime,
+    stepD: stepXY * 0.707
+}
+```
+
+`marginTop, marginBottom, marginRight, marginLeft` - It's like margin from css. If you want to increase or decrease the distance between the character and collisions, you can change these values. The default values ​​are fine if your sprite's `anchor` is at the feet `sprite.anchor.set(0.5, 1)`
+
+`speed` - The speed at which the sprite will move. 
+
+`stepXY` - Most of the time it doesn't need to be changed. This is the character's step in x and y
+
+`stepD` - Most of the time it doesn't need to be changed. This is the character's diagonal step.
+
+`options` is not required
+
+---
+
 ## Get collision options
 
 `System.getCollisionOptions(sprite)`
 
 Returns `collision_options` for the current collision
 
+See **Collision_options** at the top for a better understanding of what options the method returns.
+
+---
+
 ## Get collision by sprite
 `System.getCollisionBySprite(sprite)`
 
-If you need the collision itself (PIXI.Graphics), you can get it with this method
+If you need the collision itself (`PIXI.Graphics`), you can get it with this method
+
+---
 
 ## Display front map
 
 `System.displayFrontMap(bool)`
 
 Sometimes it is useful to hide the front_map. This method will help hide/show front_map
-
-## Collision Detector
-
-`System.collisionDetector(x, y)`
-
-Checks x, y coordinates. If these coordinates contain a black pixel of a static collision_map or a dynamic collision created by `createCollision` return `false`. Else return `true`. 
-
-*(Converts coordinates to local collision_map coordinates. Don't worry if your front_map and collision_map are the same size)*
 
 

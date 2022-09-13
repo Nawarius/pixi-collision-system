@@ -24,7 +24,7 @@ class CollisionSystem {
         this.collision_canvas_ctx = this.collision_canvas.getContext('2d')
     }
 
-    collisionDetector (x, y) {
+    isCollision (x, y) {
         const localCoords = this.collision_map.toGlobal({x, y})
 
         let collisionExist = false
@@ -37,16 +37,17 @@ class CollisionSystem {
         }
 
         const pixelColor = this.collision_canvas_ctx.getImageData(x, y, 1, 1).data[0]
-        return (pixelColor && !collisionExist) ? true : false
+        return (!pixelColor || collisionExist) ? true : false
     }
 
     moveWithCollisions (character, direction = '', options = {}) {
         const direction_exist = this.directions.find(d => d === direction)
         if (!direction_exist) return
 
-        const colStepNY = typeof options.colStepNY === 'number' ? options.colStepNY : 30
-        const colStepSY = typeof options.colStepSY === 'number' ? options.colStepSY : 10
-        const colStepX = typeof options.colStepX === 'number' ? options.colStepX : 30
+        const marginTop = typeof options.marginTop === 'number' ? options.marginTop : 30
+        const marginBottom = typeof options.marginBottom === 'number' ? options.marginBottom : 10
+        const marginRight = typeof options.marginRight === 'number' ? options.marginRight : 30
+        const marginLeft = typeof options.marginLeft === 'number' ? options.marginLeft : 30
 
         const speed = typeof options.speed === 'number' ? options.speed : 5
         const stepXY = typeof options.stepXY === 'number' ? options.stepXY : speed * app.ticker.deltaTime
@@ -54,53 +55,53 @@ class CollisionSystem {
         
         switch (direction) {
             case 'walkNE': {
-                if (this.collisionDetector(character.position.x + colStepNY, character.position.y - colStepNY)) {
+                if (!this.isCollision(character.position.x + marginTop, character.position.y - marginTop)) {
                     character.position.y -= stepD
                     character.position.x += stepXY
                 }
                 break
             }
             case 'walkNW': {
-                if (this.collisionDetector(character.position.x - colStepNY, character.position.y - colStepNY)) {
+                if (!this.isCollision(character.position.x - marginTop, character.position.y - marginTop)) {
                     character.position.x -= stepXY
                     character.position.y -= stepD
                 }
                 break
             }
             case 'walkN': {
-                if (this.collisionDetector(character.position.x, character.position.y - colStepNY)){
+                if (!this.isCollision(character.position.x, character.position.y - marginTop)){
                     character.position.y -= stepXY
                 }
                 break
             }
             case 'walkSE': {
-                if (this.collisionDetector(character.position.x + colStepSY, character.position.y + colStepSY)) {
+                if (!this.isCollision(character.position.x + marginBottom, character.position.y + marginBottom)) {
                     character.position.x += stepXY
                     character.position.y += stepD
                 }
                 break
             }
             case 'walkSW': {
-                if (this.collisionDetector(character.position.x - colStepSY, character.position.y + colStepSY)) {
+                if (!this.isCollision(character.position.x - marginBottom, character.position.y + marginBottom)) {
                     character.position.y += stepD
                     character.position.x -= stepXY
                 }
                 break
             }
             case 'walkS': {
-                if (this.collisionDetector(character.position.x, character.position.y + colStepSY)) {
+                if (!this.isCollision(character.position.x, character.position.y + marginBottom)) {
                     character.position.y += stepXY
                 }
                 break
             }
             case 'walkE': {
-                if (this.collisionDetector(character.position.x + colStepX, character.position.y)) {
+                if (!this.isCollision(character.position.x + marginRight, character.position.y)) {
                     character.position.x += stepXY
                 }
                 break
             }
             case 'walkW': {
-                if (this.collisionDetector(character.position.x - colStepX, character.position.y)) {
+                if (!this.isCollision(character.position.x - marginLeft, character.position.y)) {
                     character.position.x -= stepXY
                 }
                 break
