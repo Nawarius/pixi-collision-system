@@ -4,6 +4,15 @@
   "description": "Library for simple interactions with collisions",
   "main": "index.js",
   "keywords": [],
-  "author": "Artem Ermakov (Nawarius)",
+  "homepage": "https://github.com/Nawarius/pixi-collision-system",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nawarius/pixi-collision-system"
+  },
+  "author" : {
+    "name": "Artem Ermakov (Nawarius)",
+    "email": "nawarius1993@gmail.com",
+    "url": "https://www.linkedin.com/in/artem-ermakov-b88499201"
+  },
   "license": "ISC"
 }
