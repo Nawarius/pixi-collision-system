@@ -10,7 +10,7 @@ class CollisionSystem {
 
         this.collision_canvas = null
         this.collision_canvas_ctx = null
-        this.collisions_forms = ['ellipse', 'rect']
+        this.collision_shapes = ['ellipse', 'rect']
 
         this.directions = ['walkN', 'walkNE', 'walkNW', 'walkS', 'walkSE', 'walkSW', 'walkE', 'walkW']
 
@@ -110,15 +110,15 @@ class CollisionSystem {
         } 
     }
 
-    createCollision (sprite, options = {scaleX: 0, scaleY: 0, rotation: 0, form: 'ellipse'}) {
+    createCollision (sprite, options = {scaleX: 0, scaleY: 0, rotation: 0, shape: 'ellipse'}) {
 
-        const form_exist = this.collisions_forms.find(f => options.form === f)
+        const shape_exist = this.collision_shapes.find(s => options.shape === s)
 
         const params = {
             scaleX: options.scaleX || 0,
             scaleY: options.scaleY || 0,
             rotation: options.rotation || 0,
-            form: (options.form && form_exist) ? options.form : 'ellipse'
+            shape: (options.shape && shape_exist) ? options.shape : 'ellipse'
         }
         
         let collision = this.getCollisionBySprite(sprite)
@@ -139,14 +139,14 @@ class CollisionSystem {
         let collision = this.getCollisionBySprite(sprite)
         if (!collision) return
 
-        const form_exist = this.collisions_forms.find(f => options.form === f)
+        const shape_exist = this.collision_shapes.find(s => options.shape === s)
 
-        collision.collision_system_params.form = (options.form && form_exist) ? options.form : collision.collision_system_params.form
+        collision.collision_system_params.shape = (options.shape && shape_exist) ? options.shape : collision.collision_system_params.shape
         collision.collision_system_params.scaleX += options.scaleX || 0
         collision.collision_system_params.scaleY += options.scaleY || 0
         collision.collision_system_params.rotation += options.rotation || 0
 
-        const {scaleX, scaleY, rotation, form} = collision.collision_system_params
+        const {scaleX, scaleY, rotation, shape} = collision.collision_system_params
 
         const radX = sprite.width / 2
         const radY = radX / 2
@@ -154,7 +154,7 @@ class CollisionSystem {
         collision.clear()
         collision.beginFill('black')
 
-        if (form === 'rect') {
+        if (shape === 'rect') {
             collision.drawRect(
                 sprite.position.x - (sprite.width + scaleX) / 2,
                 sprite.position.y - (sprite.height + scaleY) / 2,

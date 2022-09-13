@@ -18,10 +18,10 @@
         </div>
 
         <div style = 'margin: 10px;'>
-            Change collision form
-            <div>Current form: <span id = 'form_span' style = 'color: red;'></span></div>
-            <button onclick = "updateCollision({form: 'ellipse'})">Ellipse</button>
-            <button onclick = "updateCollision({form: 'rect'})">Rect</button>
+            Change collision shape
+            <div>Current shape: <span id = 'shape_span' style = 'color: red;'></span></div>
+            <button onclick = "updateCollision({shape: 'ellipse'})">Ellipse</button>
+            <button onclick = "updateCollision({shape: 'rect'})">Rect</button>
         </div>
 
         <div style = 'margin: 10px;'>
@@ -49,7 +49,7 @@
         // No text selection when many buttons clicks
         document.body.onselectstart = () => false
 
-        let span_rot = document.getElementById('rotation_span'), form_span = document.getElementById('form_span') 
+        let span_rot = document.getElementById('rotation_span'), shape_span = document.getElementById('shape_span') 
         let scale_x_span = document.getElementById('scale_x_span'), scale_y_span = document.getElementById('scale_y_span') 
 
         function updateCollision (params) {
@@ -61,7 +61,7 @@
             span_rot.innerText = options.rotation.toFixed(1)
             scale_x_span.innerText = options.scaleX.toFixed(1)
             scale_y_span.innerText = options.scaleY.toFixed(1)
-            form_span.innerHTML = options.form
+            shape_span.innerHTML = options.shape
         }
 
     </script>
