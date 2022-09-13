@@ -202,6 +202,6 @@ class CollisionSystem {
     }
 }
 
-//export default CollisionSystem
+module.exports = CollisionSystem
 
 
