@@ -143,9 +143,9 @@ class CollisionSystem {
         const shape_exist = this.collision_shapes.find(s => options.shape === s)
 
         collision.collision_system_params.shape = (options.shape && shape_exist) ? options.shape : collision.collision_system_params.shape
-        collision.collision_system_params.scaleX += options.scaleX || 0
-        collision.collision_system_params.scaleY += options.scaleY || 0
-        collision.collision_system_params.rotation += options.rotation || 0
+        collision.collision_system_params.scaleX = options.scaleX ? options.scaleX : collision.collision_system_params.scaleX
+        collision.collision_system_params.scaleY = options.scaleY ? options.scaleY : collision.collision_system_params.scaleY
+        collision.collision_system_params.rotation = options.rotation ? options.rotation : collision.collision_system_params.rotation
 
         const {scaleX, scaleY, rotation, shape} = collision.collision_system_params
 
@@ -188,7 +188,7 @@ class CollisionSystem {
 
     getCollisionOptions (sprite) {
         const collision = this.getCollisionBySprite(sprite)
-        if (collision) return collision.collision_system_params
+        if (collision) return {...collision.collision_system_params}
 
         return null
     }

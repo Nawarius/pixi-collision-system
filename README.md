@@ -1,9 +1,9 @@
-# Pixi-sollision-system
+# pixi-collision-system
 
 This is a simple library for creating collisions based on static black and white collision maps and dynamic collisions for sprites.
 
-It is recommended to create static collision maps using [**Collision map maker**](https://nawarius.github.io/collision-map-maker/)
-You can read about how to use the **Collision map maker** in this [**article**](https://medium.com/@nawarius1993/collision-map-maker-js-2d-drawing-94d1a31eec6f).
+It is recommended to create static collision maps using [**Collision map maker**](https://nawarius.github.io/collision-map-maker/).
+You can read about how to use the [**Collision map maker**](https://nawarius.github.io/collision-map-maker/) in this [**article**](https://medium.com/@nawarius1993/collision-map-maker-js-2d-drawing-94d1a31eec6f).
 
 # Example
 
@@ -19,39 +19,71 @@ The idea is very simple. We have two maps in our scene:
 1) **Front map** - a beautiful map that the user sees.
 2) **Collision map** - black and white map. It is invisible to the user.
 
-When you move, the **pixi-collision-system** determines whether the pixel in front of the character is white or black. If the pixel is black, the character cannot pass, if the pixel is white, the character can pass.
+When you move your sprite, the **pixi-collision-system determines if the sprite can move further or not.
+
+If there is a dynamic collision ahead (another sprite) or a black pixel in a static collision map, our sprite will not be able to move forward.
 
 # Usage
 
+For a complete picture of what is happening, I recommend looking at the [example code](https://github.com/Nawarius/pixi-collision-system/blob/main/example/main.js)
+
 ```
+    import * as PIXI from 'pixi.js'
     import CollisionSystem from 'pixi-collision-system'
 
+    // Init PIXI app
+    const app = new PIXI.Application(options)
+
+    // Use some function for creating maps
+    const front_map = createFrontMap()
+    const collision_map = createCollisionMap()
+
+    // Use some function for creating sprites
+    const character = createSprite()
+    const sprite = createSprite()
+
     // Create instance of Collision System
-    const System = new CollisionSystem({ collision_map, front_map, character }, app, PIXI)
+    const System = new CollisionSystem({ collision_map, front_map }, app, PIXI)
 
     // Draw collision sprite in collision_map
     System.createCollision(sprite)
 
-    // Hide front map
+    // Get actual collision options
+    const options = System.getCollisionOptions(sprite)
+
+    // Increase collision scaleX += 0.1 and change shape to 'rect'
+    System.updateCollision(sprite, { scaleX: options.scaleX + 0.1, shape: 'rect' })
+
+    // Check if there is a collision at coordinates north of the character
+    const bool = System.isCollision(character.position.x, character.position.y + 50)
+
+    // Try moving the character to the west
+    System.moveWithCollisions(character, 'walkW')
+
+    // Get PIXI.Graphics collision
+    System.getCollisionBySprite(sprite)
+
+    // Remove the collision (сollision is removed automatically when the sprite is removed)
+    System.removeCollision(sprite)
+
+    // Hide/show front map
     System.displayFrontMap(false)
 
 ```
 # Api
 
-## Collision_options
+## Collision options
 
 Options shown with default values
 
 ```
 options = {
-    shape: 'ellipse', // The geometric shape of the collision
+    shape: 'ellipse', // The geometric shape of the collision (can be 'ellipse' or 'rect')
     scaleX: 0, // Scale by x coord
     scaleY: 0, // Scale by y coord
     rotation: 0, // Rotation
 }
 ```
-
-`shape` can be 'ellipse' or 'rect'
 
 ---
 
@@ -75,7 +107,7 @@ Initializes everything necessary for the operation of the CollisionSystem
 
 Creates a collision for the sprite. 
 
-See **Collision_options** at the top for a better understanding of what options the method accepts.
+See **Collision options** at the top for a better understanding of what options the method accepts.
 
 `options` is not required
 
@@ -87,7 +119,7 @@ See **Collision_options** at the top for a better understanding of what options 
 
 Use this function to change the collision *(its size, rotation, shape)*
 
-See **Collision_options** at the top for a better understanding of what options the method accepts.
+See **Collision options** at the top for a better understanding of what options the method accepts.
 
 `options` is not required
 
@@ -153,9 +185,9 @@ options = {
 
 `System.getCollisionOptions(sprite)`
 
-Returns `collision_options` for the current collision
+Returns **Collision options** for the current collision
 
-See **Collision_options** at the top for a better understanding of what options the method returns.
+See **Collision options** at the top for a better understanding of what options the method returns.
 
 ---
 

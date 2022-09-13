@@ -20,26 +20,26 @@
         <div style = 'margin: 10px;'>
             Change collision shape
             <div>Current shape: <span id = 'shape_span' style = 'color: red;'></span></div>
-            <button onclick = "updateCollision({shape: 'ellipse'})">Ellipse</button>
-            <button onclick = "updateCollision({shape: 'rect'})">Rect</button>
+            <button onclick = "updateCollision({shape: 'ellipse'}, 'shape')">Ellipse</button>
+            <button onclick = "updateCollision({shape: 'rect'}, 'shape')">Rect</button>
         </div>
 
         <div style = 'margin: 10px;'>
             <div>ScaleX: <span id = 'scale_x_span' style = 'color: red;'></span></div>
-            <span class = 'btn_control' onclick = "updateCollision({scaleX: 5})">+</span>
-            <span class = 'btn_control' onclick = "updateCollision({scaleX: -5})">-</span>
+            <span class = 'btn_control' onclick = "updateCollision({scaleX: 5}, 'scaleX')">+</span>
+            <span class = 'btn_control' onclick = "updateCollision({scaleX: -5}, 'scaleX')">-</span>
         </div>
 
         <div style = 'margin: 10px;'>
             <div>ScaleY: <span id = 'scale_y_span' style = 'color: red;'></span></div>
-            <span class = 'btn_control' onclick = "updateCollision({scaleY: 5})">+</span>
-            <span class = 'btn_control' onclick = "updateCollision({scaleY: -5})">-</span>
+            <span class = 'btn_control' onclick = "updateCollision({scaleY: 5}, 'scaleY')">+</span>
+            <span class = 'btn_control' onclick = "updateCollision({scaleY: -5}, 'scaleY')">-</span>
         </div>
 
         <div style = 'margin: 10px;'>
             <div>Rotation: <span id = 'rotation_span' style = 'color: red;'></span></div>
-            <span class = 'btn_control' onclick = "updateCollision({rotation: 0.1})">+</span>
-            <span class = 'btn_control' onclick = "updateCollision({rotation: -0.1})">-</span>
+            <span class = 'btn_control' onclick = "updateCollision({rotation: 0.1}, 'rotation')">+</span>
+            <span class = 'btn_control' onclick = "updateCollision({rotation: -0.1}, 'rotation')">-</span>
         </div>
 
     </div>
@@ -52,16 +52,25 @@
         let span_rot = document.getElementById('rotation_span'), shape_span = document.getElementById('shape_span') 
         let scale_x_span = document.getElementById('scale_x_span'), scale_y_span = document.getElementById('scale_y_span') 
 
-        function updateCollision (params) {
-            
-            System.updateCollision(earth, params)
+        function updateCollision (params, type) {
+            // Get current options
             const options = System.getCollisionOptions(earth)
 
+            // If shape => change shape
+            if (type === 'shape') options[type] = params[type]
+            // If scale or rotation => increase/decrease value
+            else options[type] += params[type]
+
+            // Update Collision
+            System.updateCollision(earth, options)
+            // Get actual collision options
+            const updated_options = System.getCollisionOptions(earth)
+
             // Write actual collision options
-            span_rot.innerText = options.rotation.toFixed(1)
-            scale_x_span.innerText = options.scaleX.toFixed(1)
-            scale_y_span.innerText = options.scaleY.toFixed(1)
-            shape_span.innerHTML = options.shape
+            span_rot.innerText = updated_options.rotation.toFixed(1)
+            scale_x_span.innerText = updated_options.scaleX.toFixed(1)
+            scale_y_span.innerText = updated_options.scaleY.toFixed(1)
+            shape_span.innerHTML = updated_options.shape
         }
 
     </script>
