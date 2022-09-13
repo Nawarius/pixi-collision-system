@@ -42,7 +42,7 @@ function setup () {
     camera_follow_character()
     
     // Create instance of Collision System (Initialization of collision map canvas)
-    System = new CollisionSystem({ collision_map, front_map, character }, app, PIXI)
+    System = new CollisionSystem({ collision_map, front_map }, app, PIXI)
 
     // Draw collision for earth sprite in collision_map
     System.createCollision(earth)
@@ -83,7 +83,7 @@ function setup () {
     // On each tick, check the current direction. After that, the character moves in the indicated direction, checking all collisions
     function move_loop () {
         const direction = getDirection(keyboardKeys)
-        System.moveWithCollisions(direction)
+        System.moveWithCollisions(character, direction)
 
         play_animation(direction)
         camera_follow_character()
