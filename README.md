@@ -7,7 +7,7 @@ You can read about how to use the [**Collision map maker**](https://nawarius.git
 
 # Example
 
-Try this example
+Try [this example](https://nawarius.github.io/pixi-collision-system/)
 
 # Installation
 

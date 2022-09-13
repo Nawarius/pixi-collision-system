@@ -136,16 +136,16 @@ class CollisionSystem {
         
     }
 
-    updateCollision (sprite, options) {
+    updateCollision (sprite, options = {}) {
         let collision = this.getCollisionBySprite(sprite)
         if (!collision) return
 
         const shape_exist = this.collision_shapes.find(s => options.shape === s)
 
         collision.collision_system_params.shape = (options.shape && shape_exist) ? options.shape : collision.collision_system_params.shape
-        collision.collision_system_params.scaleX = options.scaleX ? options.scaleX : collision.collision_system_params.scaleX
-        collision.collision_system_params.scaleY = options.scaleY ? options.scaleY : collision.collision_system_params.scaleY
-        collision.collision_system_params.rotation = options.rotation ? options.rotation : collision.collision_system_params.rotation
+        collision.collision_system_params.scaleX = typeof options.scaleX === 'number' ? options.scaleX : collision.collision_system_params.scaleX
+        collision.collision_system_params.scaleY = typeof options.scaleY === 'number'  ? options.scaleY : collision.collision_system_params.scaleY
+        collision.collision_system_params.rotation = typeof options.rotation === 'number'  ? options.rotation : collision.collision_system_params.rotation
 
         const {scaleX, scaleY, rotation, shape} = collision.collision_system_params
 
