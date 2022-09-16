@@ -50,7 +50,7 @@ class CollisionSystem {
         const marginLeft = typeof options.marginLeft === 'number' ? options.marginLeft : 30
 
         const speed = typeof options.speed === 'number' ? options.speed : 5
-        const stepXY = typeof options.stepXY === 'number' ? options.stepXY : speed * app.ticker.deltaTime
+        const stepXY = typeof options.stepXY === 'number' ? options.stepXY : speed * this.app.ticker.deltaTime
         const stepD = typeof options.stepD === 'number' ? options.stepD :  stepXY * 0.707
         
         switch (direction) {

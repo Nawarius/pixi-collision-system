@@ -19,7 +19,7 @@ The idea is very simple. We have two maps in our scene:
 1) **Front map** - a beautiful map that the user sees.
 2) **Collision map** - black and white map. It is invisible to the user.
 
-When you move your sprite, the **pixi-collision-system determines if the sprite can move further or not.
+When you move your sprite, the **pixi-collision-system** determines if the sprite can move further or not.
 
 If there is a dynamic collision ahead (another sprite) or a black pixel in a static collision map, our sprite will not be able to move forward.
 

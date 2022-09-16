@@ -1,6 +1,6 @@
 {
   "name": "pixi-collision-system",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Library for simple interactions with collisions",
   "main": "index.js",
   "keywords": [],
