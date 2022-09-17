@@ -6,9 +6,11 @@ const app = new PIXI.Application({
     autoDensity: true,
     backgroundColor: 'black',
     width: window.innerWidth,
-    height: window.innerHeight,
-    sortableChildren: true
+    height: window.innerHeight
 })
+
+// Need for zIndex
+app.stage.sortableChildren = true
 
 // Loading the required img resources
 app.loader
@@ -34,6 +36,7 @@ function setup () {
 
     // Add asset (Earth img)
     earth = createAsset(app.loader.resources.earth.texture)
+    earth.zIndex = earth.position.y
 
     // Add all sprites to scene (maps, character, earth)
     app.stage.addChild(collision_map, front_map, earth, character)
@@ -87,6 +90,8 @@ function setup () {
 
         play_animation(direction)
         camera_follow_character()
+
+        character.zIndex = character.position.y
     }
 
     // Down/up keyboard key  
