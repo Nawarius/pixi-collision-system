@@ -7,11 +7,26 @@ You can read about how to use the [**Collision map maker**](https://nawarius.git
 
 # Example
 
-Try [this example](https://nawarius.github.io/pixi-collision-system/)
+Try [this example](https://nawarius.github.io/pixi-collision-system/) (use WASD or arrows to control the character)
 
 # Installation
 
-```npm install pixi-collision-system```
+## Npm
+
+``` sh
+npm install pixi-collision-system
+```
+
+## Import
+
+```js
+import CollisionSystem from 'pixi-collision-system'
+```
+
+## CDN
+```html
+    <script src = 'https://cdn.jsdelivr.net/npm/pixi-collision-system@latest/cdn/index.min.js'></script>
+```
 
 # Description of the concept
 
@@ -27,7 +42,7 @@ If there is a dynamic collision ahead (another sprite) or a black pixel in a sta
 
 For a complete picture of what is happening, I recommend looking at the [example code](https://github.com/Nawarius/pixi-collision-system/blob/main/example/main.js)
 
-```
+```js
     import * as PIXI from 'pixi.js'
     import CollisionSystem from 'pixi-collision-system'
 
@@ -76,7 +91,7 @@ For a complete picture of what is happening, I recommend looking at the [example
 
 Options shown with default values
 
-```
+```js
 options = {
     shape: 'ellipse', // The geometric shape of the collision (can be 'ellipse' or 'rect')
     scaleX: 0, // Scale by x coord
@@ -89,7 +104,9 @@ options = {
 
 ## Constructor
 
-`const System = new CollisionSystem({front_map, collision_map}, app, PIXI)`
+```js
+const System = new CollisionSystem({front_map, collision_map}, app, PIXI)
+```
 
 Initializes everything necessary for the operation of the CollisionSystem 
 
@@ -103,7 +120,9 @@ Initializes everything necessary for the operation of the CollisionSystem
 
 ## Create Collision
 
-`System.createCollision(sprite, options)`
+```js
+System.createCollision(sprite, options)
+```
 
 Creates a collision for the sprite. 
 
@@ -115,7 +134,9 @@ See **Collision options** at the top for a better understanding of what options 
 
 ## Update Collision
 
-`System.updateCollision(sprite, options)`
+```js
+System.updateCollision(sprite, options)
+```
 
 Use this function to change the collision *(its size, rotation, shape)*
 
@@ -127,7 +148,9 @@ See **Collision options** at the top for a better understanding of what options 
 
 ## Remove Collision
 
-`System.removeCollision(sprite)`
+```js
+System.removeCollision(sprite)
+```
 
 You can manually remove the collision if you need to. The collision will also be removed automatically if you delete the sprite to which it is attached.
 
@@ -135,7 +158,9 @@ You can manually remove the collision if you need to. The collision will also be
 
 ## Is Collision
 
-`System.isCollision(x, y)`
+```js
+System.isCollision(x, y)
+```
 
 Checks x, y coordinates. If these coordinates contain a black pixel of a static `collision_map` or a dynamic sprite collision created by `createCollision` return `true`.
 
@@ -145,19 +170,21 @@ Checks x, y coordinates. If these coordinates contain a black pixel of a static 
 
 ## Move with collisions
 
-`System.moveWithCollisions(sprite, direction, options)`
+```js
+System.moveWithCollisions(sprite, direction, options)
+```
 
 Allows you to move the sprite in one of the available directions using collisions. 
 
 Available directions
 
-```
+```sh
 'walkNE', 'walkNW', 'walkN', 'walkSE', 'walkSW', 'walkS', 'walkE', 'walkW'
 ```
 
 Available options (Default values)
 
-```
+```js
 options = {
     marginTop: 30,
     marginBottom: 10,
@@ -183,7 +210,9 @@ options = {
 
 ## Get collision options
 
-`System.getCollisionOptions(sprite)`
+```js
+System.getCollisionOptions(sprite)
+```
 
 Returns **Collision options** for the current collision
 
@@ -192,7 +221,9 @@ See **Collision options** at the top for a better understanding of what options 
 ---
 
 ## Get collision by sprite
-`System.getCollisionBySprite(sprite)`
+```js
+System.getCollisionBySprite(sprite)
+```
 
 If you need the collision itself (`PIXI.Graphics`), you can get it with this method
 
@@ -200,8 +231,22 @@ If you need the collision itself (`PIXI.Graphics`), you can get it with this met
 
 ## Display front map
 
-`System.displayFrontMap(bool)`
+```js
+System.displayFrontMap(bool)
+```
 
 Sometimes it is useful to hide the front_map. This method will help hide/show front_map
+
+---
+
+# Useful things
+## Collision map maker
+
+It is recommended to create collision maps using [Collision map maker](https://nawarius.github.io/collision-map-maker/)
+
+## Medium articles
+Pixi-collision-system [article](https://medium.com/@nawarius1993/pixi-collision-system-e4f360d65236)
+
+Collision map maker [tutorial](https://medium.com/@nawarius1993/collision-map-maker-js-2d-drawing-94d1a31eec6f)
 
 
